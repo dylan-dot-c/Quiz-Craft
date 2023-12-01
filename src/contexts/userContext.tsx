@@ -1,4 +1,12 @@
-import React, { useState, createContext, ReactNode, useContext } from "react";
+import React, {
+    useState,
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+} from "react";
+import { getUserInfo } from "../lib/apiWrapper";
+import { useNavigate } from "react-router-dom";
 
 type UserContextProps = {
     user: User | null;
@@ -11,19 +19,28 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const [user, setUser] = useState<User | null>({
-        firstName: "Dylan",
-        lastName: "Heslop",
-        email: "heslopd23@gmail.com",
-        id: 123,
-    });
+    const [user, setUser] = useState<User | null>(getUser);
+    const navigate = useNavigate();
+
+    function getUser(): User | null {
+        const user = localStorage.getItem("user");
+        if (user) {
+            return JSON.parse(user) as User;
+        } else {
+            return null;
+        }
+    }
 
     const login = (newUser: User) => {
         setUser(newUser);
+        localStorage.setItem("user", JSON.stringify(newUser));
     };
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/");
     };
     return (
         <UserContext.Provider value={{ user, login, logout }}>

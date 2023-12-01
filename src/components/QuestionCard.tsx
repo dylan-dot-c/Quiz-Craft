@@ -1,6 +1,7 @@
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4, NIL as NIL_UUID } from "uuid";
 
 type QuestionProps = {
     question: QuizQuestion;
@@ -32,7 +33,7 @@ function QuestionCard({
         ) {
             setAnswers((prev) => [
                 ...prev,
-                { question_id: question.question_id, answer_id: -1 },
+                { question_id: question.question_id, answer_id: NIL_UUID },
             ]);
         }
     }, []);
@@ -44,7 +45,7 @@ function QuestionCard({
                 if (aIndex == index) {
                     return {
                         ...answer,
-                        answer_id: parseInt(e.target.value!),
+                        answer_id: e.target.value!,
                     };
                 } else {
                     return answer;
@@ -55,7 +56,7 @@ function QuestionCard({
     }
 
     return (
-        <Card className='col-6 mx-auto mt-4'>
+        <Card className='col-md-6 col-12 mx-auto mt-4'>
             <Card.Body>
                 <Card.Title>{question.question}</Card.Title>
                 <Card.Subtitle className='mb-2 text-muted'>

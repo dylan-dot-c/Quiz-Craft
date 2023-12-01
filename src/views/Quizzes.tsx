@@ -12,17 +12,16 @@ function Quizzes() {
                 const response = await getAllQuizzes();
                 if (response.data) {
                     setQuizzes(response.data);
-                    toast("Quizzes has been fetched");
                 }
             } catch (err) {
-                toast("An error occured");
+                toast.error("Error getting quizzes");
             }
         }
 
         getData();
     }, []);
     return (
-        <div className='row gap-3 mt-3 px-4'>
+        <div className='row mt-3 p-4 gap-5 justify-content-center     mx-auto'>
             {quizzes.map((quiz) => {
                 return <Quiz key={quiz.quiz_id} quiz={quiz} />;
             })}

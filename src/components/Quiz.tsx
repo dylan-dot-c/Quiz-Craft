@@ -11,7 +11,7 @@ function Quiz({ quiz }: QuizProps) {
     return (
         <>
             <Card
-                className='col-4 p-2 rounded-3 shadow-lg '
+                className=' col-12 col-md-4 rounded-3 shadow-lg '
                 data-bs-theme='dark'>
                 <Card.Header className='d-flex justify-content-between '>
                     <span>Quiz</span>

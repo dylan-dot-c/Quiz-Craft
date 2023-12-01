@@ -12,15 +12,24 @@ function Header() {
         <>
             <Navbar expand='lg' bg='dark' data-bs-theme='dark'>
                 <Container>
-                    <Navbar.Brand href='#home'>Quiz Craft</Navbar.Brand>
+                    <Navbar.Brand as={Link} to='/'>
+                        <img
+                            src='/quiz.png'
+                            className='bg-white'
+                            width={40}
+                            alt=''
+                        />{" "}
+                        Craft
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='me-auto'>
-                            <Nav.Link href='#home'>Home</Nav.Link>
                             <Nav.Link as={Link} to='/quizzes'>
                                 All Quizzes
                             </Nav.Link>
-                            <Nav.Link href='#pricing'>Pricing</Nav.Link>
+                            <Nav.Link as={Link} to={"/dashboard"}>
+                                Quiz Craft Studio
+                            </Nav.Link>
                         </Nav>
                         <Nav>
                             {user ? (
