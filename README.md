@@ -7,7 +7,7 @@ This is the frontend for the Quiz Craft project which was done in reactJS + Vite
 ## To get start run
 
 ```
-  git clone {my project git repo} .
+  git clone https://github.com/dylan-dot-c/Quiz-Craft.git .
   npm install
   npm run dev
   
