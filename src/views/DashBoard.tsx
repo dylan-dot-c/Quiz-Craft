@@ -44,7 +44,7 @@ function DashBoard() {
     }, []);
 
     function copyQuizLink(quiz_id: number) {
-        const url = window.location.origin + "/quiz/" + quiz_id;
+        const url = window.location.origin + "/#/quiz/" + quiz_id;
         try {
             navigator.clipboard.writeText(url);
 
