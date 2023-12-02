@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import Header from "./components/Navbar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./views/SignUp";
 import { UserProvider } from "./contexts/userContext";
 import Login from "./views/Login";
@@ -12,7 +12,7 @@ import DashBoard from "./views/DashBoard";
 import EditQuiz from "./views/EditQuiz";
 function App() {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <UserProvider>
                 <Header />
                 <Routes>
@@ -25,7 +25,7 @@ function App() {
                     <Route path='/quiz/edit/:quiz_id' element={<EditQuiz />} />
                 </Routes>
             </UserProvider>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
