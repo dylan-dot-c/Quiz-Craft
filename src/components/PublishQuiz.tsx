@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import { publishQuiz } from "../lib/apiWrapper";
 import { toast } from "react-toastify";
-import { CloudArrowUp, CloudUploadFill } from "react-bootstrap-icons";
+import { CloudUploadFill } from "react-bootstrap-icons";
 // import { ArrowRight } from "react-bootstrap-icons";
 
 type Props = {
