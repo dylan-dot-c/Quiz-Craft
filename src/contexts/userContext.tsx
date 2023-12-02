@@ -1,11 +1,4 @@
-import React, {
-    useState,
-    createContext,
-    ReactNode,
-    useContext,
-    useEffect,
-} from "react";
-import { getUserInfo } from "../lib/apiWrapper";
+import React, { useState, createContext, ReactNode, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 type UserContextProps = {

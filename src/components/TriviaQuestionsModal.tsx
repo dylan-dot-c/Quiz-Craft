@@ -133,6 +133,7 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
                             <Form.Label>Select Category</Form.Label>
                             <Form.Control
                                 as='select'
+                                title='Select Category'
                                 value={formData.category}
                                 aria-label='Select Category to get'
                                 name='category'

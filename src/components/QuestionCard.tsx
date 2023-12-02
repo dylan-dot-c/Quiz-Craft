@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4, NIL as NIL_UUID } from "uuid";
+import { NIL as NIL_UUID } from "uuid";
 
 type QuestionProps = {
     question: QuizQuestion;

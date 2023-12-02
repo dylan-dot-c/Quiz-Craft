@@ -24,7 +24,7 @@ function EditQuiz() {
                         if (index === questionIndex) {
                             const updatedAnswers =
                                 question.incorrect_answers.filter(
-                                    (answer, i) => i !== answerIndex
+                                    (_, i) => i !== answerIndex
                                 );
 
                             return {

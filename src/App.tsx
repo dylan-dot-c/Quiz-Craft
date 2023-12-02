@@ -3,7 +3,7 @@ import "./index.css";
 import Header from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./views/SignUp";
-import { UserProvider, useUser } from "./contexts/userContext";
+import { UserProvider } from "./contexts/userContext";
 import Login from "./views/Login";
 import Home from "./views/Home";
 import Quizzes from "./views/Quizzes";
