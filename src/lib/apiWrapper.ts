@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const baseURL = "https://quiz-craft-flask-backend.onrender.com/api";
+let baseURL: string;
+if (import.meta.env.PROD) {
+    baseURL = import.meta.env.VITE_PROD_API + "/api";
+} else {
+    baseURL = import.meta.env.VITE_DEV_API + "/api";
+}
+console.log(import.meta.env.PROD);
 
 const apiClientNoAuth = () => {
     return axios.create({
