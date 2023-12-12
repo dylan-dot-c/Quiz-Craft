@@ -1,7 +1,7 @@
 import { useUser } from "../contexts/userContext";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { getUserQuizzes } from "../lib/apiWrapper";
+import { getUserQuizzes, deleteQuiz } from "../lib/apiWrapper";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import AddNewQuestionModal from "../components/AddNewQuizModal";
 import UserInfo from "../components/UserInfo";
 import PublishQuiz from "../components/PublishQuiz";
 import UnPublishQuiz from "../components/UnPublishQuiz";
+
 import {
     ClipboardCheckFill,
     PatchQuestionFill,
@@ -31,6 +32,21 @@ function DashBoard() {
             }
         } catch (err) {
             toast.error("Some Error Occured");
+        }
+    }
+
+    async function handleDeleteQuiz(quiz_id: number) {
+        const token = localStorage.getItem("token") || "";
+
+        try {
+            const response = await deleteQuiz(token, quiz_id);
+            if (response.data) {
+                toast.success(`Quiz id ${quiz_id} has been delete!`);
+                getData();
+            }
+        } catch (err) {
+            console.log(err);
+            toast.warn("Failed to delete the quiz");
         }
     }
 
@@ -129,6 +145,13 @@ function DashBoard() {
                                                 Edit Quiz
                                             </Button>
                                         </Link>
+                                        <Button
+                                            variant='danger'
+                                            onClick={() =>
+                                                handleDeleteQuiz(quiz.quiz_id)
+                                            }>
+                                            Delete Quiz
+                                        </Button>
                                     </Card.Body>
                                 </Card>
                             );

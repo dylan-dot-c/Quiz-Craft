@@ -213,6 +213,30 @@ const getQuestionsForQuiz = async (
     return { data, error };
 };
 
+const deleteQuiz = async (
+    token: string,
+    quiz_id: number
+): Promise<APIResponse<{ msg: string }>> => {
+    let data, error;
+
+    try {
+        const response = await apiClientTokenAuth(token).delete(
+            "/quiz/delete/" + quiz_id
+        );
+        if (response.data) {
+            data = response.data;
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            error = err.message;
+        } else {
+            error = "Something weird happened";
+        }
+    }
+
+    return { data, error };
+};
+
 async function submitAnswers(
     token: string,
     answerPayload: SubmitQuiz,
@@ -365,6 +389,7 @@ export {
     updateUser,
     deleteUser,
     getAllQuizzes,
+    deleteQuiz,
     getQuestionsForQuiz,
     publishQuiz,
     unpublishQuiz,
