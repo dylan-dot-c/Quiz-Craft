@@ -13,17 +13,19 @@ type APIResponse<T> = {
     msg?: string;
 };
 
+type Person = {
+    firstName: string;
+    lastName: string;
+    id: number;
+};
+
 type QuizType = {
     quiz_id: number;
     title: string;
     description: string;
     questions: number;
     submissions: number;
-    author: {
-        firstName: string;
-        lastName: string;
-        id: number;
-    };
+    author: Person;
 };
 
 type QuizQuestion = {
@@ -89,4 +91,11 @@ type TriViaQuestion = {
 type TriviaResponse = {
     response_code: number;
     results: TriViaQuestion[];
+};
+
+type SubmissionResponse = {
+    score: number;
+    submission_id: number;
+    date_submitted: string;
+    user: Person;
 };

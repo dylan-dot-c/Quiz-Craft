@@ -282,6 +282,32 @@ async function getUserQuizzes(token: string): Promise<APIResponse<UserQuiz[]>> {
     return { data, error };
 }
 
+async function getSubmissions(
+    token: string,
+    quiz_id: string
+): Promise<APIResponse<SubmissionResponse[]>> {
+    let data, error;
+
+    try {
+        const response = await apiClientTokenAuth(token).get(
+            "/quiz/submissions/" + quiz_id
+        );
+        if (response) {
+            data = response.data;
+        } else {
+            throw Error("no response was found");
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            error = err.message;
+        } else {
+            error = "Failed to get submissions for this quiz";
+        }
+    }
+
+    return { data, error };
+}
+
 async function addNewQuiz(
     token: string,
     description: string,
@@ -395,6 +421,7 @@ export {
     unpublishQuiz,
     submitAnswers,
     getUserQuizzes,
+    getSubmissions,
     addNewQuiz,
     getQuestionsForQuizEdit,
     addQuestions,

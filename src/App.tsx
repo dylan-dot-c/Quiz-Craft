@@ -11,6 +11,7 @@ import AttemptQuiz from "./views/AttemptQuiz";
 import DashBoard from "./views/DashBoard";
 import EditQuiz from "./views/EditQuiz";
 import PrivateRoute from "./components/PrivateRoute";
+import Submissions from "./views/Submissions";
 function App() {
     return (
         <HashRouter>
@@ -42,6 +43,14 @@ function App() {
                         element={
                             <PrivateRoute>
                                 <EditQuiz />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path='/quiz/submissions/:quiz_id'
+                        element={
+                            <PrivateRoute>
+                                <Submissions />
                             </PrivateRoute>
                         }
                     />

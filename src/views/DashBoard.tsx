@@ -138,8 +138,10 @@ function DashBoard() {
                                         </ButtonGroup>
                                     </Card.Header>
                                     <Card.Body>
-                                        {quiz.description}
-                                        <br />
+                                        <Card.Text>
+                                            {quiz.description}
+                                        </Card.Text>
+
                                         <Link to={`/quiz/edit/${quiz.quiz_id}`}>
                                             <Button variant='outline-warning'>
                                                 Edit Quiz
