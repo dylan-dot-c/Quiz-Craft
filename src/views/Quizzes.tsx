@@ -2,6 +2,9 @@ import { getAllQuizzes } from "../lib/apiWrapper";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Quiz from "../components/Quiz";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
 function Quizzes() {
     const [quizzes, setQuizzes] = useState<QuizType[]>([]);
@@ -21,11 +24,17 @@ function Quizzes() {
         getData();
     }, []);
     return (
-        <div className='row mt-3 p-4 gap-5 justify-content-center     mx-auto'>
-            {quizzes.map((quiz) => {
-                return <Quiz key={quiz.quiz_id} quiz={quiz} />;
-            })}
-        </div>
+        <Container>
+            <Row xs={1} md={2} lg={3} className='g-4 my-4'>
+                {quizzes.map((quiz) => {
+                    return (
+                        <Col key={quiz.quiz_id}>
+                            <Quiz key={quiz.quiz_id} quiz={quiz} />
+                        </Col>
+                    );
+                })}
+            </Row>
+        </Container>
     );
 }
 
