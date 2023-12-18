@@ -10,6 +10,8 @@ import Quizzes from "./views/Quizzes";
 import AttemptQuiz from "./views/AttemptQuiz";
 import DashBoard from "./views/DashBoard";
 import EditQuiz from "./views/EditQuiz";
+import PrivateRoute from "./components/PrivateRoute";
+import Submissions from "./views/Submissions";
 function App() {
     return (
         <HashRouter>
@@ -20,9 +22,38 @@ function App() {
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/' element={<Home />} />
                     <Route path='/quizzes' element={<Quizzes />} />
-                    <Route path='/quiz/:id' element={<AttemptQuiz />} />
-                    <Route path='/dashboard' element={<DashBoard />} />
-                    <Route path='/quiz/edit/:quiz_id' element={<EditQuiz />} />
+                    <Route
+                        path='/quiz/:id'
+                        element={
+                            <PrivateRoute>
+                                <AttemptQuiz />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path='/dashboard'
+                        element={
+                            <PrivateRoute>
+                                <DashBoard />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path='/quiz/edit/:quiz_id'
+                        element={
+                            <PrivateRoute>
+                                <EditQuiz />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path='/quiz/submissions/:quiz_id'
+                        element={
+                            <PrivateRoute>
+                                <Submissions />
+                            </PrivateRoute>
+                        }
+                    />
                 </Routes>
             </UserProvider>
         </HashRouter>

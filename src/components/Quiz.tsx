@@ -10,9 +10,7 @@ function Quiz({ quiz }: QuizProps) {
     const { firstName, lastName } = quiz.author;
     return (
         <>
-            <Card
-                className=' col-12 col-md-4 rounded-3 shadow-lg '
-                data-bs-theme='dark'>
+            <Card className=' rounded-3 shadow-lg ' data-bs-theme='dark'>
                 <Card.Header className='d-flex justify-content-between '>
                     <span>Quiz</span>
                     <span>Submissions: {quiz.submissions}</span>

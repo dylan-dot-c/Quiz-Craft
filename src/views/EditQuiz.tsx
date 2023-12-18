@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getQuestionsForQuizEdit } from "../lib/apiWrapper";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -276,6 +276,11 @@ function EditQuiz() {
 
     return (
         <div className='bg-success-subtle py-5  '>
+            <div className='container my-2'>
+                <Link to={`/quiz/submissions/${quiz_id}`}>
+                    <Button>View Submissions</Button>
+                </Link>
+            </div>
             <Form className='container  mx-auto' onSubmit={handleSubmit}>
                 <div className='mb-4 p-3 rounded-4 border border-black bg-white'>
                     <Form.Group>

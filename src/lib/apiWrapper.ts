@@ -213,6 +213,30 @@ const getQuestionsForQuiz = async (
     return { data, error };
 };
 
+const deleteQuiz = async (
+    token: string,
+    quiz_id: number
+): Promise<APIResponse<{ msg: string }>> => {
+    let data, error;
+
+    try {
+        const response = await apiClientTokenAuth(token).delete(
+            "/quiz/delete/" + quiz_id
+        );
+        if (response.data) {
+            data = response.data;
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            error = err.message;
+        } else {
+            error = "Something weird happened";
+        }
+    }
+
+    return { data, error };
+};
+
 async function submitAnswers(
     token: string,
     answerPayload: SubmitQuiz,
@@ -252,6 +276,32 @@ async function getUserQuizzes(token: string): Promise<APIResponse<UserQuiz[]>> {
             error = err.message;
         } else {
             error = "Something weird happened";
+        }
+    }
+
+    return { data, error };
+}
+
+async function getSubmissions(
+    token: string,
+    quiz_id: string
+): Promise<APIResponse<SubmissionResponse[]>> {
+    let data, error;
+
+    try {
+        const response = await apiClientTokenAuth(token).get(
+            "/quiz/submissions/" + quiz_id
+        );
+        if (response) {
+            data = response.data;
+        } else {
+            throw Error("no response was found");
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            error = err.message;
+        } else {
+            error = "Failed to get submissions for this quiz";
         }
     }
 
@@ -365,11 +415,13 @@ export {
     updateUser,
     deleteUser,
     getAllQuizzes,
+    deleteQuiz,
     getQuestionsForQuiz,
     publishQuiz,
     unpublishQuiz,
     submitAnswers,
     getUserQuizzes,
+    getSubmissions,
     addNewQuiz,
     getQuestionsForQuizEdit,
     addQuestions,

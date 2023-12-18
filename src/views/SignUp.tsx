@@ -38,14 +38,14 @@ function SignUp() {
 
         try {
             const response = await signUpUser(formData);
-
-            if (response) {
+            console.log(response);
+            if (response.data) {
                 toast.success("User Signed up successfully", {
                     type: "success",
                 });
                 navigate("/login");
             } else {
-                toast.error("Failed to signup user");
+                toast.error(response.error);
             }
         } catch (err) {
             toast.error("Failed to sign up user", {
