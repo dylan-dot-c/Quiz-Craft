@@ -231,6 +231,40 @@ function EditQuiz() {
         });
     }
 
+    function handleCorrectAnswerChange(
+        e: React.ChangeEvent<HTMLInputElement>,
+        questionIndex: number
+    ) {
+        const { value } = e.target;
+
+        setEditQuestions((prevQuestions) => {
+            if (prevQuestions) {
+                const newQuestions = prevQuestions.questions.map(
+                    (question, qIndex) => {
+                        if (questionIndex == qIndex) {
+                            const newAnswer = {
+                                ...question.correct_answer,
+                                text: value,
+                            };
+                            return {
+                                ...question,
+                                correct_answer: newAnswer,
+                            };
+                        } else {
+                            return question;
+                        }
+                    }
+                );
+                return {
+                    ...prevQuestions,
+                    questions: newQuestions,
+                };
+            } else {
+                return null;
+            }
+        });
+    }
+
     function handleAnswerChange(
         e: React.ChangeEvent<HTMLInputElement>,
         questionIndex: number,
@@ -372,13 +406,20 @@ function EditQuiz() {
                                                 className='form-control d-inline'
                                                 type='text'
                                                 value={answer.text}
-                                                onChange={(e) =>
-                                                    handleAnswerChange(
-                                                        e,
-                                                        index,
-                                                        answer_index
-                                                    )
-                                                }
+                                                onChange={(e) => {
+                                                    if (correct) {
+                                                        handleCorrectAnswerChange(
+                                                            e,
+                                                            index
+                                                        );
+                                                    } else {
+                                                        handleAnswerChange(
+                                                            e,
+                                                            index,
+                                                            answer_index
+                                                        );
+                                                    }
+                                                }}
                                             />
 
                                             {!correct && (
