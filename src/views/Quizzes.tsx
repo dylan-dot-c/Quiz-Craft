@@ -5,6 +5,7 @@ import Quiz from "../components/Quiz";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import { Helmet } from "react-helmet";
 
 function Quizzes() {
     const [quizzes, setQuizzes] = useState<QuizType[]>([]);
@@ -25,6 +26,9 @@ function Quizzes() {
     }, []);
     return (
         <Container>
+            <Helmet>
+                <title>Quiz Craft | All Quizzes</title>
+            </Helmet>
             <Row xs={1} md={2} lg={3} className='g-4 my-4'>
                 {quizzes.map((quiz) => {
                     return (

@@ -9,6 +9,7 @@ import TriviaQuestionModal from "../components/TriviaQuestionsModal";
 import { v4 as uuidv4 } from "uuid";
 import { addQuestions } from "../lib/apiWrapper";
 import { TrashFill } from "react-bootstrap-icons";
+import { Helmet } from "react-helmet";
 
 function EditQuiz() {
     const { quiz_id } = useParams();
@@ -310,6 +311,9 @@ function EditQuiz() {
 
     return (
         <div className='bg-success-subtle py-5  '>
+            <Helmet>
+                <title>Edit | Quiz Craft </title>
+            </Helmet>
             <div className='container my-2'>
                 <Link to={`/quiz/submissions/${quiz_id}`}>
                     <Button>View Submissions</Button>

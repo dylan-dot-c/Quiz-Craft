@@ -6,6 +6,7 @@ import UserInfo from "../components/UserInfo";
 
 import { PlusCircleFill } from "react-bootstrap-icons";
 import UserQuizzes from "../components/UserQuizzes";
+import { Helmet } from "react-helmet";
 
 function DashBoard() {
     const [showModal, setShowModal] = useState(false);
@@ -13,6 +14,9 @@ function DashBoard() {
 
     return (
         <div className='container mx-auto mt-3'>
+            <Helmet>
+                <title>Dashboard | Quiz Craft</title>
+            </Helmet>
             <div className='col'>
                 <h1 className='btn cta cta-button fs-1'>Quiz Craft Studio</h1>
                 <h2 className='fs-5 d-md-flex d-block my-2 justify-content-between '>

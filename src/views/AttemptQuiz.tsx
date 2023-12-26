@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import { NIL } from "uuid";
 import { useUser } from "../contexts/userContext";
+import { Helmet } from "react-helmet";
 
 function AttemptQuiz() {
     const navigate = useNavigate();
@@ -117,6 +118,14 @@ function AttemptQuiz() {
     return (
         <div className='bg-warning-subtle pt-5'>
             <Container className=''>
+                <Helmet>
+                    <title>Attempt Quiz | Quiz Craft</title>
+                    <meta
+                        name='description'
+                        content='Complete a quiz and get your results!'
+                    />
+                </Helmet>
+
                 <Card
                     data-bs-theme='dark'
                     className='col-12 col-md-6 mx-auto p-2 mt-3 border shadow-sm border-black'>
