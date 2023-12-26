@@ -1,8 +1,12 @@
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 function Home() {
     return (
         <>
+            <Helmet>
+                <title>Quiz Craft | Home</title>
+            </Helmet>
             <header>
                 <div className='animate-border p-1'>
                     <div className='text-white text-center bg-dark bg-opacity-75  p-4 rounded-3'>

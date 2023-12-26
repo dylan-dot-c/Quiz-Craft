@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../contexts/userContext";
 import { loginUser } from "../lib/apiWrapper";
+import { Helmet } from "react-helmet";
 
 type FormData = {
     email: string;
@@ -64,6 +65,13 @@ function Login() {
 
     return (
         <div className='bg'>
+            <Helmet>
+                <title>Login Page | Quiz Craft</title>
+                <meta
+                    name='description'
+                    content='Login and get Started in crafting wonderful quizzes'
+                />
+            </Helmet>
             <div className='container mx-auto mt-5'>
                 <div className='border border-1 col-md-6 col-12 mx-auto p-4 rounded-4 bg-white'>
                     <div className='text-center'>

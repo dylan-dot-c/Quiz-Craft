@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import SubmissionCard from "../components/SubmissionCard";
 import Button from "react-bootstrap/Button";
 import { Container } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 // import { Link } from "react-router-dom";
 
 function Submissions() {
@@ -34,6 +35,9 @@ function Submissions() {
 
     return (
         <Container className='mt-4'>
+            <Helmet>
+                <title>Submissions | Quiz Craft</title>
+            </Helmet>
             <Button
                 variant={"secondary"}
                 className='my-2'

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { signUpUser } from "../lib/apiWrapper";
 import { useNavigate, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 type FormData = {
     firstName: string;
@@ -56,6 +57,13 @@ function SignUp() {
 
     return (
         <div className='bg'>
+            <Helmet>
+                <title>Sign Up | Quiz Craft</title>
+                <meta
+                    name='description'
+                    content='Signup and get Started with creating awesome quizzes and share them.'
+                />
+            </Helmet>
             <div className='container mx-auto mt-5   '>
                 <div className='border border-1 col-md-8 col-12 mx-auto p-4 rounded-4 bg-white'>
                     <div className='text-center'>
