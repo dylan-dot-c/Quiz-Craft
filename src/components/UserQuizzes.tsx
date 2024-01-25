@@ -16,9 +16,12 @@ function UserQuizzes() {
             console.log(response);
             if (response.data) {
                 setUserQuizzes(response.data);
+            } else {
+                throw Error("Something went wrong");
             }
         } catch (err) {
-            toast.error("Some Error Occured");
+            console.log(typeof err);
+            toast.error(err as string);
         }
     }
 
@@ -27,7 +30,8 @@ function UserQuizzes() {
     }, []);
 
     return (
-        <Row xs={1} md={2} lg={2} className='g-4'>
+        <>
+        
             {quizzes.length == 0 && (
                 <h1 className='text-center fs-6 text-secondary '>
                     <PatchQuestionFill size={30} color={"blue"} /> <br />
@@ -35,6 +39,7 @@ function UserQuizzes() {
                     now
                 </h1>
             )}
+            <Row xs={1} md={2} lg={2} className='g-4'>
             {quizzes.map((quiz) => {
                 return (
                     <Col key={quiz.quiz_id}>
@@ -43,6 +48,7 @@ function UserQuizzes() {
                 );
             })}
         </Row>
+        </>
     );
 }
 

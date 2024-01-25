@@ -193,7 +193,7 @@ const unpublishQuiz = async (token: string, quiz_id: number) => {
     return { data, error };
 };
 const getQuestionsForQuiz = async (
-    quiz_id: number
+    quiz_id: string
 ): Promise<APIResponse<QuestionResponse>> => {
     let data, error;
 
@@ -202,6 +202,9 @@ const getQuestionsForQuiz = async (
             "quiz/question/" + quiz_id
         );
         data = response.data;
+        if (response.data.error) {
+            throw Error("Not FOund");
+        }
     } catch (err) {
         if (axios.isAxiosError(err)) {
             error = err.message;
@@ -408,6 +411,29 @@ async function addQuestions(
     return { data, error };
 }
 
+async function getUserSubmissions(
+    token: string
+): Promise<APIResponse<Submission>> {
+    let data, error;
+
+    try {
+        const result = await apiClientTokenAuth(token).get(
+            "quiz/submissions/mine"
+        );
+        if (result) {
+            data = result.data;
+        } else {
+            throw Error("Some error occured!");
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            error = err.message;
+        }
+    }
+
+    return { data, error };
+}
+
 export {
     signUpUser,
     loginUser,
@@ -425,4 +451,5 @@ export {
     addNewQuiz,
     getQuestionsForQuizEdit,
     addQuestions,
+    getUserSubmissions,
 };

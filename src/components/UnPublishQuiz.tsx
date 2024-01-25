@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import { unpublishQuiz } from "../lib/apiWrapper";
 import { toast } from "react-toastify";
 import { CloudArrowDownFill } from "react-bootstrap-icons";
+import Form from "react-bootstrap/Form";
 
 type Props = {
     quiz_id: number;
@@ -27,9 +28,7 @@ function UnPublishQuiz({ quiz_id, callback }: Props) {
     }
 
     return (
-        <Button variant='danger' onClick={handleClick}>
-            UnPublish Quiz <CloudArrowDownFill />
-        </Button>
+        
     );
 }
 

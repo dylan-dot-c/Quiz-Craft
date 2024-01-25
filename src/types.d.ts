@@ -99,3 +99,15 @@ type SubmissionResponse = {
     date_submitted: string;
     user: Person;
 };
+
+type UserSubmission = {
+    author: string;
+    date: string;
+    grade: number;
+    quiz_id: number;
+    quiz_title: string;
+};
+
+type Submission = {
+    submissions: UserSubmission[];
+};
