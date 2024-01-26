@@ -1,13 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import Header from "./components/Navbar";
-import {
-    HashRouter,
-    createHashRouter,
-    Routes,
-    Route,
-    Outlet,
-} from "react-router-dom";
+import { createHashRouter, Outlet } from "react-router-dom";
 import SignUp from "./views/SignUp";
 import { UserProvider } from "./contexts/userContext";
 import Login from "./views/Login";
@@ -106,53 +99,3 @@ export const router = createHashRouter([
         ],
     },
 ]);
-
-function App() {
-    return (
-        <HashRouter>
-            <UserProvider>
-                <Header />
-                <Routes>
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/signup' element={<SignUp />} />
-                    <Route path='/' element={<Home />} />
-                    <Route path='/quizzes' element={<Quizzes />} />
-                    <Route
-                        path='/quiz/:id'
-                        element={
-                            <PrivateRoute>
-                                <AttemptQuiz />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path='/dashboard'
-                        element={
-                            <PrivateRoute>
-                                <DashBoard />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path='/quiz/edit/:quiz_id'
-                        element={
-                            <PrivateRoute>
-                                <EditQuiz />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path='/quiz/submissions/:quiz_id'
-                        element={
-                            <PrivateRoute>
-                                <Submissions />
-                            </PrivateRoute>
-                        }
-                    />
-                </Routes>
-            </UserProvider>
-        </HashRouter>
-    );
-}
-
-export default App;

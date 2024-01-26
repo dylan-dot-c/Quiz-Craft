@@ -24,24 +24,38 @@ function AttemptQuiz() {
     const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
 
+    async function sendData(userResult: SubmitQuiz) {
+        const token = localStorage.getItem("token") || "";
+        const response = await submitAnswers(
+            token,
+            userResult,
+            parseInt(quiz_id!)
+        );
+        if (response.data) {
+            toast.success(response && response.data.success);
+        } else {
+            toast.error("An error has occured");
+        }
+    }
+
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         let total = 0;
+        const questionList = questions?.data?.questions || [];
         if (questions) {
-            for (let question of questions.data?.questions!) {
+            for (const question of questionList) {
                 const answer = userAnswers.find(
                     (answer_) => answer_.question_id == question.question_id
                 );
-                if (answer?.answer_id == question.correct_answer.id) {
+                if (
+                    (answer && answer.answer_id) == question.correct_answer.id
+                ) {
                     total++;
                 }
             }
-
-            var score = (
-                (total / questions.data?.questions.length!) *
-                100
-            ).toFixed();
-            var userResult: SubmitQuiz = {
+            const questionsLength = questions.data?.questions.length || 0;
+            const score = ((total / questionsLength) * 100).toFixed();
+            const userResult: SubmitQuiz = {
                 score: parseInt(score),
                 responses: userAnswers.filter(
                     (answer) => answer.answer_id != NIL
@@ -49,21 +63,8 @@ function AttemptQuiz() {
             };
             setScore(parseInt(score)!);
 
-            async function sendData() {
-                const token = localStorage.getItem("token") || "";
-                const response = await submitAnswers(
-                    token,
-                    userResult,
-                    parseInt(quiz_id!)
-                );
-                if (response.data) {
-                    toast.success(response?.data.success!);
-                } else {
-                    toast.error("An error has occured");
-                }
-            }
             setSubmitted(true);
-            sendData();
+            sendData(userResult);
         } else {
             toast.warn("Questions not found");
         }
@@ -75,7 +76,7 @@ function AttemptQuiz() {
 
     if (isLoading) {
         return (
-            <div className='bg-success vh-100 w-100 d-flex align-items-center justify-content-center '>
+            <div className='vh-100 w-100 d-flex align-items-center justify-content-center '>
                 LOADING...
             </div>
         );

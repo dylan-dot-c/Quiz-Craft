@@ -64,7 +64,7 @@ function EditQuiz() {
         }
 
         getData();
-    }, []);
+    }, [quiz_id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -133,11 +133,19 @@ function EditQuiz() {
         };
 
         setEditQuestions((prev) => {
-            return {
-                title: prev?.title!,
-                description: prev?.description!,
-                questions: [...prev?.questions!, new_question],
-            };
+            if (prev) {
+                return {
+                    title: prev.title || "No title",
+                    description: prev.description || "No Description",
+                    questions: [...prev.questions, new_question],
+                };
+            } else {
+                return {
+                    title: "No title",
+                    description: "No Description",
+                    questions: [],
+                };
+            }
         });
 
         toast.success("New Question Added");

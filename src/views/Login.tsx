@@ -47,7 +47,7 @@ function Login() {
                 toast.success("User Logged In successfully", {
                     type: "success",
                 });
-                localStorage.setItem("token", response.data?.token!);
+                localStorage.setItem("token", response.data.token || "");
                 const urlToNav = params.has("redirect_url")
                     ? params.get("redirect_url")
                     : "/dashboard";

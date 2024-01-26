@@ -33,7 +33,7 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        let queryString = getQueryString();
+        const queryString = getQueryString();
         const apiURL = baseURL + queryString;
 
         try {
@@ -73,9 +73,12 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
                         });
 
                     return {
-                        description: prev?.description!,
-                        title: prev?.title!,
-                        questions: [...prev?.questions!, ...new_questions],
+                        description: prev?.description ?? "",
+                        title: prev?.title ?? "",
+                        questions: [
+                            ...(prev?.questions ?? []),
+                            ...new_questions,
+                        ],
                     };
                 });
             }
@@ -100,7 +103,7 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
     };
 
     function getQueryString() {
-        var string = "";
+        let string = "";
         string += `amount=${formData.amount}`;
         if (formData.category) {
             string += `&category=${formData.category}`;

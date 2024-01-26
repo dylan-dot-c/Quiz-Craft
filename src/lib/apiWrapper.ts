@@ -30,7 +30,9 @@ const apiClientTokenAuth = (token: string) =>
         },
     });
 
-async function signUpUser(userData: User): Promise<APIResponse<any>> {
+async function signUpUser(
+    userData: User
+): Promise<APIResponse<{ msg: string }>> {
     let data, error, response;
 
     try {

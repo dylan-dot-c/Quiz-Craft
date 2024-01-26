@@ -31,7 +31,7 @@ function Submissions() {
         }
 
         getQuestions(quiz_id!);
-    }, []);
+    }, [quiz_id]);
 
     return (
         <Container className='mt-4'>

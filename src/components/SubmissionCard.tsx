@@ -7,7 +7,7 @@ type SubmissionCardProps = {
 const SubmissionCard = ({ submission }: SubmissionCardProps) => {
     const date = new Date(submission.date_submitted);
     const { score } = submission;
-    var color = "";
+    let color = "";
     if (score >= 75) {
         color = "success";
     } else if (score > 50 && score < 75) {

@@ -12,7 +12,7 @@ function CompletedQuizzes() {
             try {
                 const result = await getUserSubmissions(token);
                 if (result.data) {
-                    setSubmissions(result.data?.submissions!);
+                    setSubmissions(result.data.submissions);
                     console.log(result);
                 }
             } catch (err) {
