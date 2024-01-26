@@ -1,5 +1,5 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
 import { getQuestionsForQuiz, submitAnswers } from "../lib/apiWrapper";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
@@ -8,57 +8,54 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import { NIL } from "uuid";
-import { useUser } from "../contexts/userContext";
+
 import { Helmet } from "react-helmet";
+import useSWR from "swr";
 
 function AttemptQuiz() {
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const { user } = useUser();
-    const [questions, setQuestions] = useState<QuestionResponse | null>(null);
+    const { quiz_id } = useParams();
+    const {
+        data: questions,
+        isLoading,
+        error,
+    } = useSWR(quiz_id, getQuestionsForQuiz);
+
     const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
     const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
 
-    useEffect(() => {
-        if (!user) {
-            toast.warn("You must be logged in to complete a quiz");
-            navigate(`/login?redirect_url=/quiz/${id}`);
+    async function sendData(userResult: SubmitQuiz) {
+        const token = localStorage.getItem("token") || "";
+        const response = await submitAnswers(
+            token,
+            userResult,
+            parseInt(quiz_id!)
+        );
+        if (response.data) {
+            toast.success(response && response.data.success);
+        } else {
+            toast.error("An error has occured");
         }
-
-        async function fetchData() {
-            try {
-                const response = await getQuestionsForQuiz(parseInt(id!));
-                if (response.data) {
-                    setQuestions(response.data);
-                    console.log(response.data);
-                } else {
-                    toast.error("Invalid Quiz ID");
-                    navigate("/quizzes");
-                }
-            } catch (err) {
-                toast.error("Some error");
-            }
-        }
-
-        fetchData();
-    }, []);
+    }
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         let total = 0;
+        const questionList = questions?.data?.questions || [];
         if (questions) {
-            for (let question of questions?.questions!) {
+            for (const question of questionList) {
                 const answer = userAnswers.find(
                     (answer_) => answer_.question_id == question.question_id
                 );
-                if (answer?.answer_id == question.correct_answer.id) {
+                if (
+                    (answer && answer.answer_id) == question.correct_answer.id
+                ) {
                     total++;
                 }
             }
-
-            var score = ((total / questions?.questions.length) * 100).toFixed();
-            var userResult: SubmitQuiz = {
+            const questionsLength = questions.data?.questions.length || 0;
+            const score = ((total / questionsLength) * 100).toFixed();
+            const userResult: SubmitQuiz = {
                 score: parseInt(score),
                 responses: userAnswers.filter(
                     (answer) => answer.answer_id != NIL
@@ -66,24 +63,23 @@ function AttemptQuiz() {
             };
             setScore(parseInt(score)!);
 
-            async function sendData() {
-                const token = localStorage.getItem("token") || "";
-                const response = await submitAnswers(
-                    token,
-                    userResult,
-                    parseInt(id!)
-                );
-                if (response.data) {
-                    toast.success(response?.data.success!);
-                } else {
-                    toast.error("An error has occured");
-                }
-            }
             setSubmitted(true);
-            sendData();
+            sendData(userResult);
         } else {
             toast.warn("Questions not found");
         }
+    }
+
+    if (error) {
+        return <h1>Error!</h1>;
+    }
+
+    if (isLoading) {
+        return (
+            <div className='vh-100 w-100 d-flex align-items-center justify-content-center '>
+                LOADING...
+            </div>
+        );
     }
 
     if (submitted) {
@@ -129,11 +125,11 @@ function AttemptQuiz() {
                 <Card
                     data-bs-theme='dark'
                     className='col-12 col-md-6 mx-auto p-2 mt-3 border shadow-sm border-black'>
-                    <Card.Title>{questions?.title}</Card.Title>
-                    <Card.Body>{questions?.description}</Card.Body>
+                    <Card.Title>{questions?.data?.title}</Card.Title>
+                    <Card.Body>{questions?.data?.description}</Card.Body>
                 </Card>
                 <Form onSubmit={handleSubmit}>
-                    {questions?.questions.map((question, index) => (
+                    {questions?.data?.questions.map((question, index) => (
                         <QuestionCard
                             key={index}
                             question={question}

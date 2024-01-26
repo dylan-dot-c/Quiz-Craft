@@ -64,7 +64,7 @@ function EditQuiz() {
         }
 
         getData();
-    }, []);
+    }, [quiz_id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -133,11 +133,19 @@ function EditQuiz() {
         };
 
         setEditQuestions((prev) => {
-            return {
-                title: prev?.title!,
-                description: prev?.description!,
-                questions: [...prev?.questions!, new_question],
-            };
+            if (prev) {
+                return {
+                    title: prev.title || "No title",
+                    description: prev.description || "No Description",
+                    questions: [...prev.questions, new_question],
+                };
+            } else {
+                return {
+                    title: "No title",
+                    description: "No Description",
+                    questions: [],
+                };
+            }
         });
 
         toast.success("New Question Added");
@@ -146,10 +154,18 @@ function EditQuiz() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         const token = localStorage.getItem("token") || "";
-        const response = await addQuestions(token, +quiz_id!, editQuestions!);
+        try {
+            const response = await addQuestions(
+                token,
+                +quiz_id!,
+                editQuestions!
+            );
 
-        console.log(response);
-        toast.success("Questions has been saved");
+            console.log(response);
+            toast.success("Your changes has been saved.");
+        } catch (err) {
+            toast.error(err as string);
+        }
     }
 
     function handleDelete(index: number) {
@@ -310,12 +326,12 @@ function EditQuiz() {
     }
 
     return (
-        <div className='bg-success-subtle py-5  '>
+        <div className='  '>
             <Helmet>
                 <title>Edit | Quiz Craft </title>
             </Helmet>
             <div className='container my-2'>
-                <Link to={`/quiz/submissions/${quiz_id}`}>
+                <Link to={`/dashboard/submissions/quiz/${quiz_id}`}>
                     <Button>View Submissions</Button>
                 </Link>
             </div>
@@ -346,7 +362,7 @@ function EditQuiz() {
                                 setEditQuestions={setEditQuestions}
                             />
                             <Button type='submit' variant='success'>
-                                Upload Changes
+                                Save Changes
                             </Button>
                         </ButtonGroup>
                     </Form.Group>

@@ -56,7 +56,7 @@ function QuestionCard({
     }
 
     return (
-        <Card className='col-md-6 col-12 mx-auto mt-4'>
+        <Card className='col-md-6 col-12 mx-auto mt-4 border-secondary rounded-4'>
             <Card.Body>
                 <Card.Title>{question.question}</Card.Title>
                 <Card.Subtitle className='mb-2 text-muted'>
@@ -64,7 +64,9 @@ function QuestionCard({
                 </Card.Subtitle>
                 {allAnswers.map((answer) => {
                     return (
-                        <div key={answer.id + ""}>
+                        <div
+                            key={answer.id + ""}
+                            className='p-2 w-auto  rounded-4 bg-warning-subtle my-2'>
                             <Form.Check
                                 type='radio'
                                 label={answer.text}

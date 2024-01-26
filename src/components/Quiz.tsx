@@ -21,7 +21,7 @@ function Quiz({ quiz }: QuizProps) {
 
                     <Card.Text>{quiz.description}</Card.Text>
 
-                    <Link to={"/quiz/" + quiz.quiz_id}>
+                    <Link to={"/quizzes/" + quiz.quiz_id}>
                         <Button variant='primary'>Attempt Quiz </Button>
                     </Link>
                 </Card.Body>

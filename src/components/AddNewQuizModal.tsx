@@ -44,7 +44,7 @@ function AddNewQuestionModal({ show, setShow }: ModalProps) {
             if (response.data) {
                 const new_quiz_id = response.data.id;
                 toast.success(response.data.msg);
-                navigate("/quiz/edit/" + new_quiz_id);
+                navigate("dashboard/quizzes/quiz/edit/" + new_quiz_id);
             } else {
                 toast.error("Failed to create quiz");
             }

@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useUser } from "../contexts/userContext";
 import { loginUser } from "../lib/apiWrapper";
 import { Helmet } from "react-helmet";
@@ -13,9 +13,9 @@ type FormData = {
 };
 
 function Login() {
-    const params = new URLSearchParams(window.location.search);
-    console.log(params.get("redirect_url"));
-    // const { redirect_url } = useParams
+    const search = useLocation().search;
+    // console.log(search);
+    const params = new URLSearchParams(search);
     const { login } = useUser();
     const [formData, setFormData] = useState<FormData>({
         email: "",
@@ -47,7 +47,7 @@ function Login() {
                 toast.success("User Logged In successfully", {
                     type: "success",
                 });
-                localStorage.setItem("token", response.data?.token!);
+                localStorage.setItem("token", response.data.token || "");
                 const urlToNav = params.has("redirect_url")
                     ? params.get("redirect_url")
                     : "/dashboard";

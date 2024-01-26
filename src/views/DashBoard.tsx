@@ -2,8 +2,6 @@ import { useUser } from "../contexts/userContext";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import AddNewQuestionModal from "../components/AddNewQuizModal";
-import UserInfo from "../components/UserInfo";
-
 import { PlusCircleFill } from "react-bootstrap-icons";
 import UserQuizzes from "../components/UserQuizzes";
 import { Helmet } from "react-helmet";
@@ -18,13 +16,15 @@ function DashBoard() {
                 <title>Dashboard | Quiz Craft</title>
             </Helmet>
             <div className='col'>
-                <h1 className='btn cta cta-button fs-1'>Quiz Craft Studio</h1>
-                <h2 className='fs-5 d-md-flex d-block my-2 justify-content-between '>
+                <h2 className='fs-5 d-block my-2 text-secondary'>
                     Welcome Back,{" "}
-                    <span className='text-success'>
-                        {user?.firstName} {user?.lastName}
+                    <span className='text-success fs-3'>
+                        {user && (
+                            <>
+                                {user.firstName},{user.lastName}
+                            </>
+                        )}
                     </span>
-                    <UserInfo />
                 </h2>
                 {showModal && (
                     <AddNewQuestionModal

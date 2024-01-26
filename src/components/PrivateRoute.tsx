@@ -8,12 +8,17 @@ type Props = {
 };
 function PrivateRoute({ children }: Props) {
     const { user } = useUser();
-
     if (user) {
         return children;
     } else {
         toast.warn("Please login to continue");
-        return <Navigate to={"/login"} />;
+        return (
+            <Navigate
+                to={`/login?redirect_url=${
+                    window.location.href.split("/#")[1]
+                }`}
+            />
+        );
     }
 }
 

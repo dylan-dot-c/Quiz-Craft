@@ -6,6 +6,8 @@ import axios from "axios";
 import categories from "../lib/categories";
 import { v4 as uuidv4 } from "uuid";
 import { Buffer } from "buffer";
+import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 type TriviaProps = {
     setEditQuestions: React.Dispatch<
@@ -31,54 +33,62 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        let queryString = getQueryString();
+        const queryString = getQueryString();
         const apiURL = baseURL + queryString;
 
-        const response = await axios.get<TriviaResponse>(apiURL);
-        if (response) {
-            console.log(response.data);
+        try {
+            const response = await axios.get<TriviaResponse>(apiURL);
+            if (response) {
+                console.log(response.data);
 
-            setEditQuestions((prev) => {
-                const new_questions: QuizQuestion[] = response.data.results.map(
-                    (question) => {
-                        const incorrect_answers: Answer[] =
-                            question.incorrect_answers.map((answer) => {
-                                return {
-                                    id: uuidv4(),
-                                    text: Buffer.from(
-                                        answer,
-                                        "base64"
-                                    ).toString("utf8"),
-                                };
-                            });
+                setEditQuestions((prev) => {
+                    const new_questions: QuizQuestion[] =
+                        response.data.results.map((question) => {
+                            const incorrect_answers: Answer[] =
+                                question.incorrect_answers.map((answer) => {
+                                    return {
+                                        id: uuidv4(),
+                                        text: Buffer.from(
+                                            answer,
+                                            "base64"
+                                        ).toString("utf8"),
+                                    };
+                                });
 
-                        return {
-                            question: Buffer.from(
-                                question.question,
-                                "base64"
-                            ).toString("utf8"),
-                            question_id: uuidv4(),
-                            correct_answer: {
-                                id: uuidv4(),
-                                text: Buffer.from(
-                                    question.correct_answer,
+                            return {
+                                question: Buffer.from(
+                                    question.question,
                                     "base64"
                                 ).toString("utf8"),
-                            },
-                            incorrect_answers: incorrect_answers,
-                        };
-                    }
-                );
+                                question_id: uuidv4(),
+                                correct_answer: {
+                                    id: uuidv4(),
+                                    text: Buffer.from(
+                                        question.correct_answer,
+                                        "base64"
+                                    ).toString("utf8"),
+                                },
+                                incorrect_answers: incorrect_answers,
+                            };
+                        });
 
-                return {
-                    description: prev?.description!,
-                    title: prev?.title!,
-                    questions: [...prev?.questions!, ...new_questions],
-                };
-            });
+                    return {
+                        description: prev?.description ?? "",
+                        title: prev?.title ?? "",
+                        questions: [
+                            ...(prev?.questions ?? []),
+                            ...new_questions,
+                        ],
+                    };
+                });
+            }
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                toast.error(err.message);
+            }
+        } finally {
+            setShow(false);
         }
-
-        setShow(false);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +103,7 @@ function TriviaQuestionModal({ setEditQuestions }: TriviaProps) {
     };
 
     function getQueryString() {
-        var string = "";
+        let string = "";
         string += `amount=${formData.amount}`;
         if (formData.category) {
             string += `&category=${formData.category}`;
